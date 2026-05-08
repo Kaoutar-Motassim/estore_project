@@ -2,7 +2,7 @@
 
 Application e-commerce complète développée dans le cadre du module Full Stack.
 
-**Étudiant :** Kaoutar Motassim  
+**Étudiantes :** Kaoutar Motassim & Meryem Mouktader
 **Encadrant :** Pr. Omar Zahour  
 **Faculté des Sciences Ben M'Sick — Université Hassan II de Casablanca**
 
