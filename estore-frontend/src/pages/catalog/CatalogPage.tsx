@@ -18,110 +18,117 @@ const CatalogPage = () => {
 
   const loadData = async () => {
     try {
-      const [productsRes, categoriesRes] = await Promise.all([
-        getAllProducts(),
-        getAllCategories(),
-      ]);
-      setProducts(Array.isArray(productsRes.data) ? productsRes.data : []);
-      setCategories(Array.isArray(categoriesRes.data) ? categoriesRes.data : []);
-    } catch (err) {
-      console.error(err);
-      setProducts([]);
-      setCategories([]);
-    } finally {
-      setLoading(false);
-    }
+      const [pRes, cRes] = await Promise.all([getAllProducts(), getAllCategories()]);
+      setProducts(Array.isArray(pRes.data) ? pRes.data : []);
+      setCategories(Array.isArray(cRes.data) ? cRes.data : []);
+    } catch { setProducts([]); setCategories([]); }
+    finally { setLoading(false); }
   };
 
   const loadProducts = async () => {
     try {
-      console.log('user:', user, 'search:', search, 'isAuth:', isAuthenticated);
       if (search && isAuthenticated && user?.userId) {
-        axiosInstance.post(`/search-history?userId=${user.userId}&keyword=${search}`)
-          .catch(err => console.error('search history error:', err));
+        axiosInstance.post(`/search-history?userId=${user.userId}&keyword=${search}`).catch(() => {});
       }
       const res = await getAllProducts(search || undefined, selectedCategory || undefined);
       setProducts(Array.isArray(res.data) ? res.data : []);
-    } catch (err) {
-      console.error(err);
-    }
+    } catch { /* ignore */ }
+  };
+
+  const conditionColor = (c?: string) => {
+    if (!c) return '#6b6460';
+    if (c === 'Neuf') return '#27ae60';
+    if (c === 'Très bon état') return '#2980b9';
+    return '#a89f94';
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.title}>Notre Catalogue</h1>
-      <div style={styles.searchBar}>
-        <input
-          type="text"
-          placeholder="🔍 Rechercher un produit..."
-          value={search}
-          onChange={e => setSearch(e.target.value)}
-          style={styles.searchInput}
-        />
+    <div className="page">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 32 }}>
+        <h1 className="page-title" style={{ margin: 0 }}>Catalogue</h1>
+        <span style={{ color: '#6b6460', fontSize: 14 }}>{products.length} article{products.length !== 1 ? 's' : ''}</span>
       </div>
-      <div style={styles.categories}>
-        <button onClick={() => setSelectedCategory(null)} style={{ ...styles.catBtn, ...(selectedCategory === null ? styles.catBtnActive : {}) }}>Tous</button>
-        {categories.map(cat => (
-          <button key={cat.id} onClick={() => setSelectedCategory(cat.id)} style={{ ...styles.catBtn, ...(selectedCategory === cat.id ? styles.catBtnActive : {}) }}>
-            {cat.name}
-          </button>
-        ))}
-      </div>
-      {loading ? (
-        <div style={styles.loading}>Chargement...</div>
-      ) : products.length === 0 ? (
-        <div style={styles.empty}>Aucun produit trouvé</div>
-      ) : (
-        <div style={styles.grid}>
-          {products.map(product => (
-            <Link to={`/products/${product.id}`} key={product.id} style={styles.cardLink}>
-              <div style={styles.card}>
-                <div style={styles.imageContainer}>
-                  {product.imageUrl
-                    ? <img src={product.imageUrl} alt={product.name} style={styles.image} />
-                    : <div style={styles.imagePlaceholder}>🛍️</div>}
-                </div>
-                <div style={styles.cardBody}>
-                  <span style={styles.category}>{product.category?.name}</span>
-                  <h3 style={styles.productName}>{product.name}</h3>
-                  <p style={styles.description}>{product.description?.substring(0, 80)}...</p>
-                  <div style={styles.footer}>
-                    <span style={styles.price}>{product.price?.toFixed(2)} MAD</span>
-                    <span style={styles.stock}>{(product.inventory?.quantity ?? 0) > 0 ? '✅ En stock' : '❌ Rupture'}</span>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 32 }}>
+        {/* Sidebar filters */}
+        <div>
+          <div style={{ background: '#141414', border: '1px solid #1c1c1c', borderRadius: 12, padding: 20, position: 'sticky', top: 80 }}>
+            <div style={{ marginBottom: 24 }}>
+              <input
+                className="input"
+                type="text"
+                placeholder="Rechercher..."
+                value={search}
+                onChange={e => setSearch(e.target.value)}
+              />
+            </div>
+            <div>
+              <div className="label" style={{ marginBottom: 12 }}>Catégorie</div>
+              <button
+                onClick={() => setSelectedCategory(null)}
+                style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', borderRadius: 8, border: 'none', background: selectedCategory === null ? 'rgba(201,168,76,0.12)' : 'transparent', color: selectedCategory === null ? '#c9a84c' : '#a89f94', fontSize: 13, fontWeight: selectedCategory === null ? 600 : 400, cursor: 'pointer', marginBottom: 4, transition: 'all 0.15s' }}
+              >
+                Tous les articles
+              </button>
+              {categories.map(cat => (
+                <button
+                  key={cat.id}
+                  onClick={() => setSelectedCategory(cat.id)}
+                  style={{ display: 'block', width: '100%', textAlign: 'left', padding: '8px 12px', borderRadius: 8, border: 'none', background: selectedCategory === cat.id ? 'rgba(201,168,76,0.12)' : 'transparent', color: selectedCategory === cat.id ? '#c9a84c' : '#a89f94', fontSize: 13, fontWeight: selectedCategory === cat.id ? 600 : 400, cursor: 'pointer', marginBottom: 4, transition: 'all 0.15s' }}
+                >
+                  {cat.name}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Grid */}
+        {loading ? (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: 300, color: '#6b6460' }}>Chargement...</div>
+        ) : products.length === 0 ? (
+          <div className="empty-state">
+            <h3>Aucun article trouvé</h3>
+            <p>Essayez d'autres mots-clés ou catégories</p>
+          </div>
+        ) : (
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 20 }}>
+            {products.map(p => (
+              <Link to={`/products/${p.id}`} key={p.id} style={{ textDecoration: 'none' }}>
+                <div className="card" style={{ cursor: 'pointer' }}>
+                  <div style={{ height: 190, background: '#0d0d0d', overflow: 'hidden', position: 'relative' }}>
+                    {p.imageUrl
+                      ? <img src={p.imageUrl} alt={p.name} style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 0.4s' }} />
+                      : <div style={{ height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 48 }}>🛍️</div>}
+                    {p.condition && (
+                      <span style={{ position: 'absolute', top: 10, left: 10, background: 'rgba(13,13,13,0.85)', color: conditionColor(p.condition), padding: '3px 10px', borderRadius: 6, fontSize: 11, fontWeight: 600 }}>
+                        {p.condition}
+                      </span>
+                    )}
+                  </div>
+                  <div style={{ padding: 16 }}>
+                    <div style={{ fontSize: 11, color: '#c9a84c', textTransform: 'uppercase', letterSpacing: '0.8px', fontWeight: 700, marginBottom: 6 }}>
+                      {p.category?.name}
+                    </div>
+                    <div style={{ fontSize: 15, fontWeight: 600, color: '#f0ece4', marginBottom: 4, lineHeight: 1.3 }}>{p.name}</div>
+                    {p.location && <div style={{ fontSize: 12, color: '#6b6460', marginBottom: 10 }}>📍 {p.location}</div>}
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <span style={{ fontSize: 18, fontWeight: 700, color: '#c9a84c', fontFamily: "'Playfair Display', serif" }}>
+                        {p.price?.toFixed(0)} MAD
+                      </span>
+                      <span style={{ fontSize: 11, color: (p.inventory?.quantity ?? 0) > 0 ? '#27ae60' : '#c0392b' }}>
+                        {(p.inventory?.quantity ?? 0) > 0 ? '● En stock' : '● Rupture'}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+              </Link>
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
-};
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: { minHeight: '100vh', backgroundColor: '#0f0f23', padding: '40px', color: 'white' },
-  title: { fontSize: '36px', fontWeight: 'bold', marginBottom: '32px', textAlign: 'center' },
-  searchBar: { maxWidth: '600px', margin: '0 auto 32px' },
-  searchInput: { width: '100%', padding: '14px 20px', backgroundColor: '#1a1a2e', border: '1px solid #2a2a4a', borderRadius: '10px', color: 'white', fontSize: '16px', outline: 'none', boxSizing: 'border-box' },
-  categories: { display: 'flex', gap: '12px', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '40px' },
-  catBtn: { padding: '8px 20px', backgroundColor: '#1a1a2e', border: '1px solid #2a2a4a', borderRadius: '20px', color: '#ccc', cursor: 'pointer', fontSize: '14px' },
-  catBtnActive: { backgroundColor: '#e94560', borderColor: '#e94560', color: 'white' },
-  grid: { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))', gap: '24px', maxWidth: '1200px', margin: '0 auto' },
-  cardLink: { textDecoration: 'none' },
-  card: { backgroundColor: '#1a1a2e', borderRadius: '12px', border: '1px solid #2a2a4a', overflow: 'hidden', cursor: 'pointer' },
-  imageContainer: { height: '200px', backgroundColor: '#0f0f23', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
-  image: { width: '100%', height: '100%', objectFit: 'cover' },
-  imagePlaceholder: { fontSize: '60px' },
-  cardBody: { padding: '16px' },
-  category: { fontSize: '12px', color: '#e94560', textTransform: 'uppercase', letterSpacing: '1px', fontWeight: 'bold' },
-  productName: { fontSize: '16px', fontWeight: 'bold', color: 'white', margin: '8px 0' },
-  description: { fontSize: '13px', color: '#888', lineHeight: 1.5, marginBottom: '12px' },
-  footer: { display: 'flex', justifyContent: 'space-between', alignItems: 'center' },
-  price: { fontSize: '18px', fontWeight: 'bold', color: '#e94560' },
-  stock: { fontSize: '12px', color: '#888' },
-  loading: { textAlign: 'center', color: '#888', fontSize: '18px', marginTop: '80px' },
-  empty: { textAlign: 'center', color: '#888', fontSize: '18px', marginTop: '80px' },
 };
 
 export default CatalogPage;

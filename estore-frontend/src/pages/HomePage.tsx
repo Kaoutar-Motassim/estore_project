@@ -1,165 +1,64 @@
 import { Link } from 'react-router-dom';
 
-const HomePage = () => {
-  return (
-    <div style={styles.container}>
-      {/* Hero Section */}
-      <div style={styles.hero}>
-        <div style={styles.heroContent}>
-          <h1 style={styles.title}>
-            Bienvenue sur <span style={styles.highlight}>EStore</span>
-          </h1>
-          <p style={styles.subtitle}>
-            Découvrez notre catalogue de produits et profitez d'une expérience
-            d'achat simple et rapide.
-          </p>
-          <div style={styles.btnGroup}>
-            <Link to="/catalog" style={styles.btnPrimary}>
-              Voir le catalogue
-            </Link>
-            <Link to="/register" style={styles.btnSecondary}>
-              Créer un compte
-            </Link>
-          </div>
+const HomePage = () => (
+  <div style={{ background: '#0d0d0d', minHeight: '100vh', color: '#f0ece4' }}>
+    {/* Hero */}
+    <div style={{ position: 'relative', minHeight: '90vh', display: 'flex', alignItems: 'center', justifyContent: 'center', textAlign: 'center', padding: '0 40px', overflow: 'hidden' }}>
+      <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse 80% 60% at 50% 40%, rgba(201,168,76,0.07) 0%, transparent 70%)' }} />
+      <div style={{ position: 'absolute', top: '20%', left: '10%', width: 400, height: 400, borderRadius: '50%', background: 'rgba(201,168,76,0.03)', filter: 'blur(80px)' }} />
+      <div style={{ position: 'relative', maxWidth: 700 }}>
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: 'rgba(201,168,76,0.1)', border: '1px solid rgba(201,168,76,0.2)', borderRadius: 20, padding: '6px 16px', marginBottom: 32, fontSize: 12, fontWeight: 600, color: '#c9a84c', letterSpacing: '1px', textTransform: 'uppercase' }}>
+          ◈ La marketplace marocaine
         </div>
-      </div>
-
-      {/* Features Section */}
-      <div style={styles.features}>
-        <h2 style={styles.featuresTitle}>Pourquoi choisir EStore ?</h2>
-        <div style={styles.cards}>
-          <div style={styles.card}>
-            <div style={styles.cardIcon}>🚀</div>
-            <h3 style={styles.cardTitle}>Livraison rapide</h3>
-            <p style={styles.cardText}>
-              Recevez vos commandes en un temps record partout au Maroc.
-            </p>
-          </div>
-          <div style={styles.card}>
-            <div style={styles.cardIcon}>🔒</div>
-            <h3 style={styles.cardTitle}>Paiement sécurisé</h3>
-            <p style={styles.cardText}>
-              Vos transactions sont protégées et sécurisées à 100%.
-            </p>
-          </div>
-          <div style={styles.card}>
-            <div style={styles.cardIcon}>⭐</div>
-            <h3 style={styles.cardTitle}>Produits de qualité</h3>
-            <p style={styles.cardText}>
-              Tous nos produits sont sélectionnés avec soin pour vous.
-            </p>
-          </div>
-          <div style={styles.card}>
-            <div style={styles.cardIcon}>💬</div>
-            <h3 style={styles.cardTitle}>Support client</h3>
-            <p style={styles.cardText}>
-              Notre équipe est disponible 7j/7 pour vous aider.
-            </p>
-          </div>
+        <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 72, fontWeight: 700, lineHeight: 1.1, marginBottom: 24, letterSpacing: '-2px' }}>
+          Achetez. Vendez.<br /><span style={{ color: '#c9a84c' }}>Connectez.</span>
+        </h1>
+        <p style={{ fontSize: 18, color: '#a89f94', lineHeight: 1.7, marginBottom: 48, maxWidth: 500, margin: '0 auto 48px' }}>
+          Vendly , la marketplace où tout le monde peut vendre ses produits et trouver ce qu'il cherche au Maroc.
+        </p>
+        <div style={{ display: 'flex', gap: 16, justifyContent: 'center', flexWrap: 'wrap' }}>
+          <Link to="/catalog" style={{ background: '#c9a84c', color: '#0d0d0d', padding: '16px 36px', borderRadius: 10, fontSize: 15, fontWeight: 700, letterSpacing: '0.3px' }}>
+            Explorer le catalogue
+          </Link>
+          <Link to="/create-listing" style={{ background: 'transparent', color: '#f0ece4', padding: '16px 36px', borderRadius: 10, fontSize: 15, fontWeight: 600, border: '1px solid #2a2a2a' }}>
+            Mettre en vente →
+          </Link>
         </div>
       </div>
     </div>
-  );
-};
 
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    minHeight: '100vh',
-    backgroundColor: '#0f0f23',
-    color: 'white',
-    fontFamily: 'Segoe UI, sans-serif',
-  },
-  hero: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    minHeight: '80vh',
-    background: 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
-    padding: '40px',
-    textAlign: 'center',
-  },
-  heroContent: {
-    maxWidth: '700px',
-  },
-  title: {
-    fontSize: '52px',
-    fontWeight: 'bold',
-    marginBottom: '20px',
-    lineHeight: 1.2,
-  },
-  highlight: {
-    color: '#e94560',
-  },
-  subtitle: {
-    fontSize: '18px',
-    color: '#aaa',
-    marginBottom: '40px',
-    lineHeight: 1.6,
-  },
-  btnGroup: {
-    display: 'flex',
-    gap: '16px',
-    justifyContent: 'center',
-    flexWrap: 'wrap',
-  },
-  btnPrimary: {
-    backgroundColor: '#e94560',
-    color: 'white',
-    padding: '14px 32px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontSize: '16px',
-    fontWeight: 'bold',
-    transition: 'opacity 0.2s',
-  },
-  btnSecondary: {
-    backgroundColor: 'transparent',
-    color: 'white',
-    padding: '14px 32px',
-    borderRadius: '8px',
-    textDecoration: 'none',
-    fontSize: '16px',
-    border: '2px solid white',
-  },
-  features: {
-    padding: '80px 40px',
-    backgroundColor: '#0f0f23',
-    textAlign: 'center',
-  },
-  featuresTitle: {
-    fontSize: '32px',
-    marginBottom: '48px',
-    color: 'white',
-  },
-  cards: {
-    display: 'grid',
-    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-    gap: '24px',
-    maxWidth: '1000px',
-    margin: '0 auto',
-  },
-  card: {
-    backgroundColor: '#1a1a2e',
-    padding: '32px 24px',
-    borderRadius: '12px',
-    border: '1px solid #2a2a4a',
-    transition: 'transform 0.2s',
-  },
-  cardIcon: {
-    fontSize: '40px',
-    marginBottom: '16px',
-  },
-  cardTitle: {
-    fontSize: '18px',
-    fontWeight: 'bold',
-    marginBottom: '12px',
-    color: '#e94560',
-  },
-  cardText: {
-    color: '#aaa',
-    lineHeight: 1.6,
-    fontSize: '14px',
-  },
-};
+    {/* Stats */}
+    <div style={{ borderTop: '1px solid #1c1c1c', borderBottom: '1px solid #1c1c1c', padding: '40px 0' }}>
+      <div style={{ maxWidth: 900, margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)' }}>
+        {[['10,000+', 'Articles en vente'], ['5,000+', 'Vendeurs actifs'], ['50+', 'Villes couvertes']].map(([n, l]) => (
+          <div key={l} style={{ textAlign: 'center', padding: '20px', borderRight: '1px solid #1c1c1c' }}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 700, color: '#c9a84c' }}>{n}</div>
+            <div style={{ fontSize: 14, color: '#6b6460', marginTop: 4 }}>{l}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    {/* Features */}
+    <div style={{ maxWidth: 1100, margin: '0 auto', padding: '80px 40px' }}>
+      <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 700, textAlign: 'center', marginBottom: 64, letterSpacing: '-1px' }}>
+        Comment ça <span style={{ color: '#c9a84c' }}>marche</span> ?
+      </h2>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 24 }}>
+        {[
+          { num: '01', title: 'Créez votre annonce', text: "Publiez votre article en quelques minutes : photo, prix, description, localisation." },
+          { num: '02', title: 'Recevez des offres', text: "Les acheteurs vous contactent. Vous choisissez à qui vous vendez." },
+          { num: '03', title: 'Finalisez la vente', text: "Acceptez la commande et livrez votre article. Simple, sécurisé, marocain." },
+        ].map((f) => (
+          <div key={f.num} style={{ background: '#141414', border: '1px solid #1c1c1c', borderRadius: 16, padding: 36, transition: 'border-color 0.2s' }}>
+            <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, fontWeight: 700, color: 'rgba(201,168,76,0.2)', marginBottom: 20, lineHeight: 1 }}>{f.num}</div>
+            <h3 style={{ fontSize: 18, fontWeight: 700, marginBottom: 12 }}>{f.title}</h3>
+            <p style={{ fontSize: 14, color: '#6b6460', lineHeight: 1.7 }}>{f.text}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+);
 
 export default HomePage;

@@ -3,6 +3,7 @@ export interface User {
   firstName: string;
   lastName: string;
   email: string;
+  role: string; // BUYER, SELLER, ADMIN
   message?: string;
 }
 
@@ -18,7 +19,10 @@ export interface Product {
   description: string;
   price: number;
   imageUrl: string;
+  location?: string;
+  condition?: string;
   category: Category;
+  seller?: { id: number; firstName: string; lastName: string; email: string };
   inventory?: { quantity: number };
 }
 
@@ -58,4 +62,16 @@ export interface Review {
   rating: number;
   comment: string;
   createdAt: string;
+}
+
+export interface CreateListingData {
+  name: string;
+  description: string;
+  price: number;
+  imageUrl: string;
+  location: string;
+  condition: string;
+  categoryId: number;
+  sellerId: number;
+  quantity: number;
 }

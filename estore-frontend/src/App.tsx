@@ -9,6 +9,10 @@ import ProductDetailPage from './pages/catalog/ProductDetailPage';
 import CartPage from './pages/cart/CartPage';
 import OrdersPage from './pages/orders/OrdersPage';
 import ProfilePage from './pages/profile/ProfilePage';
+import CreateListingPage from './pages/listings/CreateListingPage';
+import MyListingsPage from './pages/listings/MyListingsPage';
+import MySalesPage from './pages/listings/MySalesPage';
+import AdminPage from './pages/admin/AdminPage';
 
 const PrivateRoute = ({ children }: { children: React.ReactElement }) => {
   const { isAuthenticated } = useAuth();
@@ -28,6 +32,10 @@ function App() {
         <Route path="/cart" element={<PrivateRoute><CartPage /></PrivateRoute>} />
         <Route path="/orders" element={<PrivateRoute><OrdersPage /></PrivateRoute>} />
         <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+        <Route path="/create-listing" element={<PrivateRoute><CreateListingPage /></PrivateRoute>} />
+        <Route path="/my-listings" element={<PrivateRoute><MyListingsPage /></PrivateRoute>} />
+        <Route path="/my-sales" element={<PrivateRoute><MySalesPage /></PrivateRoute>} />
+        <Route path="/admin" element={<PrivateRoute><AdminPage /></PrivateRoute>} />
       </Routes>
     </>
   );
