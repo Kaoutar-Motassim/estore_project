@@ -1,15 +1,19 @@
 package com.estore.estore_backend.customer.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuthResponse {
     private Long userId;
     private String firstName;
     private String lastName;
     private String email;
+    private String role;
     private String message;
 }

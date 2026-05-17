@@ -25,7 +25,8 @@ public class Order {
     private Double totalAmount;
 
     @Column(nullable = false)
-    private String status;
+    @Builder.Default
+    private String status = "PENDING"; // PENDING, CONFIRMED, ACCEPTED, REFUSED, DELIVERED
 
     @JsonIgnore
     @ManyToOne

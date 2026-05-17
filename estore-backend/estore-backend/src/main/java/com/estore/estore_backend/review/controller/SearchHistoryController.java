@@ -1,5 +1,5 @@
 package com.estore.estore_backend.review.controller;
-
+// Reçoit les requêtes pour sauvegarder l'historique de recherche
 import com.estore.estore_backend.review.document.SearchHistory;
 import com.estore.estore_backend.review.service.SearchHistoryService;
 import lombok.RequiredArgsConstructor;

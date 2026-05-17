@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface SearchHistoryRepository extends MongoRepository<SearchHistory, String> {
     List<SearchHistory> findByUserIdOrderBySearchedAtDesc(Long userId);
+    List<SearchHistory> findTop10ByOrderBySearchedAtDesc();
 }

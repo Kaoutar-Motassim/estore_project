@@ -1,5 +1,5 @@
 package com.estore.estore_backend.review.service;
-
+// Logique de création et récupération des avis
 import com.estore.estore_backend.review.document.Review;
 import com.estore.estore_backend.review.dto.ReviewRequest;
 import com.estore.estore_backend.review.repository.ReviewRepository;

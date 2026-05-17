@@ -1,5 +1,5 @@
 package com.estore.estore_backend.shopping.controller;
-
+// Reçoit les requêtes pour gérer le panier
 import com.estore.estore_backend.shopping.dto.*;
 import com.estore.estore_backend.shopping.entity.Cart;
 import com.estore.estore_backend.shopping.service.CartService;

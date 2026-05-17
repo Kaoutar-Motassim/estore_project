@@ -1,5 +1,4 @@
 package com.estore.estore_backend.customer.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,8 +24,12 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @JsonIgnore
     private String password;
+
+    @Column(nullable = false)
+    @Builder.Default
+    private String role = "BUYER"; // BUYER, SELLER, ADMIN
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)

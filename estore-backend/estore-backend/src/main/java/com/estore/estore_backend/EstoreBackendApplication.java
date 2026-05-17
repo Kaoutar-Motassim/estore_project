@@ -7,17 +7,17 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 
 @SpringBootApplication
 @EnableMongoRepositories(
-		basePackages = "com.estore.estore_backend.review.repository"
+        basePackages = "com.estore.estore_backend.review.repository"
 )
 @EnableJpaRepositories(basePackages = {
-		"com.estore.estore_backend.customer.repository",
-		"com.estore.estore_backend.catalog.repository",
-		"com.estore.estore_backend.inventory.repository",
-		"com.estore.estore_backend.shopping.repository",
-		"com.estore.estore_backend.billing.repository"
+        "com.estore.estore_backend.customer.repository",
+        "com.estore.estore_backend.catalog.repository",
+        "com.estore.estore_backend.inventory.repository",
+        "com.estore.estore_backend.shopping.repository",
+        "com.estore.estore_backend.billing.repository"
 })
 public class EstoreBackendApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(EstoreBackendApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(EstoreBackendApplication.class, args);
+    }
 }

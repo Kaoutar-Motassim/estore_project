@@ -1,6 +1,7 @@
 package com.estore.estore_backend.billing.controller;
 
 import com.estore.estore_backend.billing.dto.CreateOrderRequest;
+import com.estore.estore_backend.billing.dto.UpdateOrderStatusRequest;
 import com.estore.estore_backend.billing.entity.Order;
 import com.estore.estore_backend.billing.service.OrderService;
 import jakarta.validation.Valid;
@@ -29,5 +30,23 @@ public class OrderController {
     @GetMapping("/{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
         return ResponseEntity.ok(orderService.getOrderById(id));
+    }
+
+    // New: seller sees orders for their products
+    @GetMapping("/seller/{sellerId}")
+    public ResponseEntity<List<Order>> getOrdersBySeller(@PathVariable Long sellerId) {
+        return ResponseEntity.ok(orderService.getOrdersBySellerId(sellerId));
+    }
+
+    // New: seller accepts/refuses an order
+    @PutMapping("/{id}/status")
+    public ResponseEntity<Order> updateOrderStatus(@PathVariable Long id, @RequestBody UpdateOrderStatusRequest req) {
+        return ResponseEntity.ok(orderService.updateOrderStatus(id, req.getStatus()));
+    }
+
+    // Admin: all orders
+    @GetMapping
+    public ResponseEntity<List<Order>> getAllOrders() {
+        return ResponseEntity.ok(orderService.getAllOrders());
     }
 }

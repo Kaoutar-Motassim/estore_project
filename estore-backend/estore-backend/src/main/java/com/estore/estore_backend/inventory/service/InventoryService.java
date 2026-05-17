@@ -1,5 +1,5 @@
 package com.estore.estore_backend.inventory.service;
-
+// Vérifie le stock disponible, réduit le stock lors d'une commande
 import com.estore.estore_backend.inventory.entity.Inventory;
 import com.estore.estore_backend.inventory.repository.InventoryRepository;
 import lombok.RequiredArgsConstructor;

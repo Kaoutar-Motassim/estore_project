@@ -1,5 +1,5 @@
 package com.estore.estore_backend.shopping.service;
-
+// Crée le panier, ajoute/supprime des articles
 import com.estore.estore_backend.catalog.entity.Product;
 import com.estore.estore_backend.catalog.repository.ProductRepository;
 import com.estore.estore_backend.customer.entity.User;

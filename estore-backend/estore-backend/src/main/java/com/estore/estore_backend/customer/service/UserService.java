@@ -1,15 +1,11 @@
 package com.estore.estore_backend.customer.service;
 
-import com.estore.estore_backend.customer.dto.AuthResponse;
-import com.estore.estore_backend.customer.dto.LoginRequest;
-import com.estore.estore_backend.customer.dto.RegisterRequest;
-import com.estore.estore_backend.customer.dto.UpdateProfileRequest;
-import com.estore.estore_backend.customer.entity.Profile;
-import com.estore.estore_backend.customer.entity.User;
-import com.estore.estore_backend.customer.repository.ProfileRepository;
-import com.estore.estore_backend.customer.repository.UserRepository;
+import com.estore.estore_backend.customer.dto.*;
+import com.estore.estore_backend.customer.entity.*;
+import com.estore.estore_backend.customer.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -28,6 +24,7 @@ public class UserService {
                 .lastName(request.getLastName())
                 .email(request.getEmail())
                 .password(request.getPassword())
+                .role("BUYER")
                 .build();
 
         User savedUser = userRepository.save(user);
@@ -46,6 +43,7 @@ public class UserService {
                 .firstName(savedUser.getFirstName())
                 .lastName(savedUser.getLastName())
                 .email(savedUser.getEmail())
+                .role(savedUser.getRole())
                 .build();
     }
 
@@ -62,6 +60,7 @@ public class UserService {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .email(user.getEmail())
+                .role(user.getRole())
                 .build();
     }
 
@@ -70,13 +69,23 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
     }
 
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public User updateRole(Long userId, String role) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
+        user.setRole(role);
+        return userRepository.save(user);
+    }
+
     public User updateProfile(Long userId, UpdateProfileRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
         if (request.getFirstName() != null) user.setFirstName(request.getFirstName());
         if (request.getLastName() != null) user.setLastName(request.getLastName());
-
         userRepository.save(user);
 
         Profile profile = profileRepository.findByUserId(userId)
